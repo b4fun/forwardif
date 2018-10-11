@@ -15,7 +15,7 @@
     adb_file adb:///path/to/file
 
     // forward rule on one of the conditions matched
-    forward . 10.0.0.1
+    forward_to 10.0.0.1
   }
 
   // fallback rule
