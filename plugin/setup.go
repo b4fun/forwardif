@@ -3,15 +3,18 @@ package plugin
 import (
 	"errors"
 
+	"github.com/b4fun/forwardif"
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/forward"
+	"github.com/coredns/coredns/plugin/pkg/parse"
 	"github.com/mholt/caddy"
 	"github.com/mholt/caddy/caddyfile"
 )
 
 var (
 	errForwardRuleRequired = errors.New("forward rule required")
+	errForwardToRequired   = errors.New("forward_to required")
 )
 
 func init() {
@@ -75,20 +78,55 @@ func ParseForwardIfStanza(c *caddyfile.Dispenser) (*ForwardIf, error) {
 	}
 
 	if f.Forward == nil {
-		return f, plugin.Error("forwardif", errForwardRuleRequired)
+		return f, errForwardRuleRequired
 	}
 
 	return f, nil
 }
 
-func parseBlock(c *caddyfile.Dispenser, f *ForwardIf) error {
+func parseBlock(c *caddyfile.Dispenser, f *ForwardIf) (err error) {
+	var forwardOpt *forward.Opt
+	getForwardOpt := func() *forward.Opt {
+		if forwardOpt == nil {
+			forwardOpt = forward.NewDefault()
+		}
+
+		return forwardOpt
+	}
+
 	switch c.Val() {
-	case "forward":
-		forward, err := forward.ParseForwardStanza(c)
+	case "forward_from":
+		if !c.NextArg() {
+			return c.ArgErr()
+		}
+		getForwardOpt().From = c.Val()
+	case "forward_to":
+		to := c.RemainingArgs()
+		if len(to) < 1 {
+			return c.ArgErr()
+		}
+
+		getForwardOpt().ToHosts, err = parse.HostPortOrFile(to...)
 		if err != nil {
 			return err
 		}
-		f.Forward = forward
+	case "pattern":
+		if !c.NextArg() {
+			return c.ArgErr()
+		}
+
+		f.matcher, err = forwardif.NewRegexMatch(c.Val())
+		if err != nil {
+			return err
+		}
+	}
+
+	if forwardOpt != nil {
+		if len(forwardOpt.ToHosts) < 1 {
+			return errForwardToRequired
+		}
+
+		f.Forward = forwardOpt.Build()
 	}
 
 	return nil
