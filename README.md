@@ -2,6 +2,9 @@
 
 [coredns][] plugin for conditional forward rules.
 
+[![Build Status](https://travis-ci.org/b4fun/forwardif.svg)](https://travis-ci.org/b4fun/forwardif)
+[![](https://godoc.org/github.com/b4fun/forwardif?status.svg)](http://godoc.org/github.com/b4fun/forwardif)
+
 [coredns]: https://coredns.io/
 
 ## Example
