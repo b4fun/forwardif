@@ -12,7 +12,7 @@
 ```
 . {
   forwardif {
-    adb_file adb:///path/to/file
+    adb adb:///path/to/file
 
     // forward rule on one of the conditions matched
     forward_to 10.0.0.1
