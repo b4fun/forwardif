@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/b4fun/forwardif"
+	"github.com/b4fun/forwardif/adb"
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/forward"
@@ -119,6 +120,26 @@ func parseBlock(c *caddyfile.Dispenser, f *ForwardIf) (err error) {
 		if err != nil {
 			return err
 		}
+	case "adb":
+		if !c.NextArg() {
+			return c.ArgErr()
+		}
+
+		adb, err := adb.NewAdBlockFromFilePath(c.Val(), false)
+		if err != nil {
+			return err
+		}
+		f.matcher = adb.Match
+	case "adb_exception":
+		if !c.NextArg() {
+			return c.ArgErr()
+		}
+
+		adb, err := adb.NewAdBlockFromFilePath(c.Val(), true)
+		if err != nil {
+			return err
+		}
+		f.matcher = adb.Match
 	}
 
 	if forwardOpt != nil {

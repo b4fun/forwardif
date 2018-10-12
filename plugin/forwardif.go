@@ -6,9 +6,12 @@ import (
 	"github.com/b4fun/forwardif"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/forward"
+	clog "github.com/coredns/coredns/plugin/pkg/log"
 	"github.com/coredns/coredns/request"
 	"github.com/miekg/dns"
 )
+
+var log = clog.NewWithPlugin("forwardif")
 
 type ForwardIf struct {
 	Forward *forward.Forward
@@ -31,8 +34,10 @@ func (f *ForwardIf) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.M
 	var next plugin.Handler
 	if f.matcher(state) {
 		next = f.Forward
+		log.Infof("matched for %s", state.Name())
 	} else {
 		next = f.Next
+		log.Infof("missed for %s", state.Name())
 	}
 
 	return plugin.NextOrFailure(f.Name(), next, ctx, w, r)
