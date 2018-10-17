@@ -22,3 +22,7 @@
   forward . 8.8.8.8
 }
 ```
+
+## LICENSE
+
+MIT
