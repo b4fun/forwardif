@@ -23,7 +23,19 @@ func NewAdBlock(source io.Reader, useException bool) (*AdBlock, error) {
 		return nil, err
 	}
 
-	return &AdBlock{domains: domains}, nil
+	rv := &AdBlock{}
+	for _, domain := range domains {
+		domain = strings.TrimSpace(domain)
+		if domain == "" {
+			continue
+		}
+		if strings.Index(domain, ".") < 0 {
+			continue
+		}
+		rv.domains = append(rv.domains, domain)
+	}
+
+	return rv, nil
 }
 
 func NewAdBlockFromFilePath(path string, useException bool) (*AdBlock, error) {
