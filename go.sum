@@ -1,5 +1,6 @@
 github.com/b4fun/adblockdomain v0.0.0-20181011021353-d35e69252117 h1:HsdZHqNvfzFT6IfJ+5r7DdAl/ArV8T+dmbYmjUzuAP0=
 github.com/b4fun/adblockdomain v0.0.0-20181011021353-d35e69252117/go.mod h1:VhCpHJxpGFYBdPuC1++28wn1gOfluGxvzfRgLIvKh40=
 github.com/b4fun/coredns v0.0.0-20181011135409-18102f7d2b20/go.mod h1:q7/XnWNc6USAbhkj4MsFVmQ6B5uSEwMnILS+mrNkvbs=
+github.com/b4fun/coredns v0.0.0-20181011135409-2fabfc51c64d2f/go.mod h1:q7/XnWNc6USAbhkj4MsFVmQ6B5uSEwMnILS+mrNkvbs=
 github.com/pmezard/adblock v0.0.0-20171028110701-edfb97ad89cd h1:qZ+No5cmAvQmZisF1+3BFefjGl0lqLsYFHkBIQHHU8o=
 github.com/pmezard/adblock v0.0.0-20171028110701-edfb97ad89cd/go.mod h1:WKzf3XZq6Fc/xnED+9nticqn5+QXvGJ3ysYS7IrwmbA=
