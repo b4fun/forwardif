@@ -22,3 +22,11 @@
   forward . 8.8.8.8
 }
 ```
+
+## coredns build
+
+See [coredns_build](https://github.com/b4fun/coredns_build).
+
+## LICENSE
+
+MIT
